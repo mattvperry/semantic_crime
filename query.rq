@@ -26,18 +26,18 @@ select
   ?state_abbrv
 where {
   graph <http://logd.tw.rpi.edu/source/data-gov/dataset/311/version/1st-anniversary>  {
-    ?n crime:state ?state ;
-       crime:population ?population ;
-       crime:violent_crime ?violent_crime ;
-       crime:murder_and_nonnegligent_manslaughter ?murder_manslaughter ;
-       crime:forcible_rape ?rape ;
-       crime:robbery ?robbery ;
-       crime:aggravated_assault ?assault ;
-       crime:property_crime ?property_crime ;
-       crime:burglary ?burglary ;
-       crime:larceny_theft ?larceny ;
-       crime:motor_vehicle_theft ?motor_vehicle ;
-       crime:arson ?arson .
+    ?n1 crime:state ?state ;
+        crime:population ?population ;
+        crime:violent_crime ?violent_crime ;
+        crime:murder_and_nonnegligent_manslaughter ?murder_manslaughter ;
+        crime:forcible_rape ?rape ;
+        crime:robbery ?robbery ;
+        crime:aggravated_assault ?assault ;
+        crime:property_crime ?property_crime ;
+        crime:burglary ?burglary ;
+        crime:larceny_theft ?larceny ;
+        crime:motor_vehicle_theft ?motor_vehicle ;
+        crime:arson ?arson .
   }
   graph <http://logd.tw.rpi.edu/source/data-gov/dataset/1356/version/2009-Dec-03> {
     ?n2 agi:county_code '000' ;

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+haml index.html.haml index.html
