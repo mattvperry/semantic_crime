@@ -1,0 +1,49 @@
+# Team Chalupa
+# Matt Perry and Josh Steiner
+#
+# Sparql query for data-gov datasets 311 and 1356
+# Combining crime rate data and average gross income from 2007
+# in the United States.
+
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix crime: <http://logd.tw.rpi.edu/source/data-gov/dataset/311/vocab/raw/>
+prefix agi: <http://logd.tw.rpi.edu/source/data-gov/dataset/1356/vocab/enhancement/1/>
+
+select
+  ?state
+  SUM(xsd:decimal(?population)) as ?population
+  SUM(xsd:decimal(?violent_crime)) as ?violent_crime
+  SUM(xsd:decimal(?murder_manslaughter)) as ?murder_manslaughter
+  SUM(xsd:decimal(?rape)) as ?rape
+  SUM(xsd:decimal(?robbery)) as ?robbery
+  SUM(xsd:decimal(?assault)) as ?assault
+  SUM(xsd:decimal(?property_crime)) as ?property_crime
+  SUM(xsd:decimal(?burglary)) as ?burglary
+  SUM(xsd:decimal(?larceny)) as ?larceny
+  SUM(xsd:decimal(?motor_vehicle)) as ?motor_vehicle
+  SUM(xsd:decimal(?arson)) as ?arson
+  ?agi
+  ?state_abbrv
+where {
+  graph <http://logd.tw.rpi.edu/source/data-gov/dataset/311/version/1st-anniversary>  {
+    ?n crime:state ?state ;
+       crime:population ?population ;
+       crime:violent_crime ?violent_crime ;
+       crime:murder_and_nonnegligent_manslaughter ?murder_manslaughter ;
+       crime:forcible_rape ?rape ;
+       crime:robbery ?robbery ;
+       crime:aggravated_assault ?assault ;
+       crime:property_crime ?property_crime ;
+       crime:burglary ?burglary ;
+       crime:larceny_theft ?larceny ;
+       crime:motor_vehicle_theft ?motor_vehicle ;
+       crime:arson ?arson .
+  }
+  graph <http://logd.tw.rpi.edu/source/data-gov/dataset/1356/version/2009-Dec-03> {
+    ?n2 agi:county_code '000' ;
+        agi:county_name ?state ;
+        agi:agi ?agi ;
+        agi:state_abbrv ?state_abbrv .
+  }
+}
+group by ?state ?agi ?state_abbrv
