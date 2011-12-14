@@ -47,3 +47,4 @@ where {
   }
 }
 group by ?state ?agi ?state_abbrv
+order by xsd:decimal(?agi)
