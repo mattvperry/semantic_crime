@@ -130,7 +130,8 @@ google.setOnLoadCallback(function() {
                 'vAxis': {
                     'title': 'Crime Count',
                     'minValue': 0,
-                    'maxValue': 1000000
+                    'maxValue': 1000000,
+                    'logScale': true
                 },
                 'width': 900,
                 'height': 550
