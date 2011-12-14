@@ -58,19 +58,19 @@
                     var viz = $(this).google_viz();
                     google.visualization.events.trigger(viz, type, args);
                 },
-                crime_select: function(data, selected, sel_callback, change_callback) {
+                crime_select: function(data, selected, change) {
                     // Populate line chart dropdown
                     select = $(this);
                     $.each(crime_fields, function(i, e) {
                         option = $('<option></option>').html(e.label).attr('value', e.col);
-                        if(sel_callback(e, selected))
+                        if($.inArray(e, selected) != -1)
                             option.attr('selected', 'selected');
                         select.append(option);
                     });
         
                     // Wire change event
                     select.change(function() {
-                        change_callback(data, $(this).find(':selected'));
+                        change(data, $(this).find(':selected'));
                     });
         
                     select.trigger('change');
@@ -164,22 +164,16 @@
             });
         
             function setup_demo(data) {
-                $('#chart_select').crime_select(data, crime_fields,
-                    function(e, sel) { return $.inArray(e, sel) != -1; },
-                    function(data, selected) {
-                        $('#chart_canvas').draw_chart(data, selected.map(function(i, e) {
-                            return { label: $(e).text(), col: $(e).val() }
-                        }));
-                    }
-                );
+                $('#chart_select').crime_select(data, crime_fields, function(data, selected) {
+                    $('#chart_canvas').draw_chart(data, selected.map(function(i, e) {
+                        return { label: $(e).text(), col: $(e).val() }
+                    }));
+                });
         
-                $('#map_select').crime_select(data, crime_fields[0],
-                    function(e, sel) { return e == sel; },
-                    function(data, selected) {
-                        sel = $(selected[0]);
-                        $('#map_canvas').draw_map(data, { label: sel.text(), col: sel.val() });
-                    }
-                );
+                $('#map_select').crime_select(data, [crime_fields[0]], function(data, selected) {
+                    sel = $(selected[0]);
+                    $('#map_canvas').draw_map(data, { label: sel.text(), col: sel.val() });
+                });
         
                 $('#map_canvas').google_viz_event('regionClick', function(e) {
                     $('#bar_canvas').draw_bar(data, e.region.slice(-2), crime_fields);
