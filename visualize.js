@@ -142,7 +142,7 @@ google.setOnLoadCallback(function() {
         }
     });
 
-    (function setup_demo(data) {
+    function setup_demo(data) {
         $('#chart_select').crime_select(data, crime_fields,
             function(e, sel) { return $.inArray(e, sel) != -1; },
             function(data, selected) {
@@ -165,15 +165,13 @@ google.setOnLoadCallback(function() {
         });
 
         $('#map_canvas').google_viz_trigger('regionClick', { region: 'NY' });
-    })(data);
+    };
 
     // Query logd for data
-    /*
     var sparql_proxy = 'http://logd.tw.rpi.edu/sparql';
     var params = {
         'output': 'json',
         'query-uri': 'http://perrym5.github.com/semantic_crime/query.rq' //window.location.href + 'query.rq';
     };
     $.getJSON(sparql_proxy, params, setup_demo);
-    */
 });
