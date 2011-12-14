@@ -7,7 +7,7 @@
 
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix crime: <http://logd.tw.rpi.edu/source/data-gov/dataset/311/vocab/raw/>
-prefix agi: <http://logd.tw.rpi.edu/source/data-gov/dataset/1356/vocab/enhancement/1/>
+prefix agi: <http://logd.tw.rpi.edu/source/data-gov/dataset/1356/vocab/raw/>
 
 select
   ?state
