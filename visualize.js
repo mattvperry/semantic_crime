@@ -39,6 +39,10 @@ google.setOnLoadCallback(function() {
             var viz = $(this).google_viz();
             google.visualization.events.addListener(viz, type, callback);
         },
+        google_viz_trigger: function(type, args) {
+            var viz = $(this).google_viz();
+            google.visualization.events.trigger(viz, type, args);
+        },
         crime_select: function(data, selected, sel_callback, change_callback) {
             // Populate line chart dropdown
             select = $(this);
@@ -156,11 +160,11 @@ google.setOnLoadCallback(function() {
             }
         );
 
-        $('#map_canvas').google_viz_event('select', function(e) {
-            asd = e;
+        $('#map_canvas').google_viz_event('regionClick', function(e) {
+            $('#bar_canvas').draw_bar(data, e.region.slice(-2), crime_fields);
         });
 
-        $('#bar_canvas').draw_bar(data, 'NY', crime_fields);
+        $('#map_canvas').google_viz_trigger('regionClick', { region: 'NY' });
     })(data);
 
     // Query logd for data
