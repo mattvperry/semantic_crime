@@ -63,9 +63,9 @@ google.setOnLoadCallback(function() {
         draw_chart: function(data, fields, opts) {
             // Chart options
             var options = $.extend({
-                'title': 'Adjusted Gross Income per Capita versus Number of Crimes',
+                'title': 'Adjusted Gross Income versus Number of Crimes',
                 'hAxis': {
-                    'title': 'Adjusted Gross Income per Capita',
+                    'title': 'Adjusted Gross Income',
                     'logScale': true
                 },
                 'vAxis': {
@@ -78,11 +78,11 @@ google.setOnLoadCallback(function() {
             }, opts);
 
             // Create data table
-            var cols = [['number', 'Adjusted Gross Income per Capita']];
+            var cols = [['number', 'Adjusted Gross Income']];
             $.each(fields, function(i, f) { cols.push(['number', f.label]) });
 
             var rows = $.map(data.results.bindings, function(e) {
-                row = [parseInt(e.agi.value) / parseInt(e.population.value)];
+                row = [parseInt(e.agi.value)];
                 $.each(fields, function(i, f) { row.push(parseInt(e[f.col].value)) });
                 return [row];
             });
@@ -130,8 +130,7 @@ google.setOnLoadCallback(function() {
                 'vAxis': {
                     'title': 'Crime Count',
                     'minValue': 0,
-                    'maxValue': 1000000,
-                    'logScale': true
+                    'maxValue': 1000000
                 },
                 'width': 900,
                 'height': 550
