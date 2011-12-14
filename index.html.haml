@@ -10,5 +10,12 @@
     :javascript
       #{File.read('visualize.js')}
   %body
-    %div#chart_canvas
-    %div#map_canvas
+    #chart_container
+      %label Crime Types:
+      %select#chart_select(multiple="multiple")
+      #chart_canvas
+    #map_container
+      %label Crime Type:
+      %select#map_select
+      #map_canvas
+      #bar_canvas

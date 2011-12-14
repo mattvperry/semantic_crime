@@ -8,7 +8,16 @@
     <script src='visualize.js'></script>
   </head>
   <body>
-    <div id='chart_canvas'></div>
-    <div id='map_canvas'></div>
+    <div id='chart_container'>
+      <label>Crime Types:</label>
+      <select id='chart_select' multiple='multiple'></select>
+      <div id='chart_canvas'></div>
+    </div>
+    <div id='map_container'>
+      <label>Crime Type:</label>
+      <select id='map_select'></select>
+      <div id='map_canvas'></div>
+      <div id='bar_canvas'></div>
+    </div>
   </body>
 </html>
