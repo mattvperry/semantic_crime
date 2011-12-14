@@ -114,9 +114,18 @@ google.setOnLoadCallback(function() {
             this.google_viz('GeoMap', cols, rows, options);
         },
         draw_bar: function(data, state, fields, opts) {
+            // Get state object from data
+            var state_obj = (function() {
+                for(i in data.results.bindings) {
+                    obj = data.results.bindings[i];
+                    if(obj.state_abbrv.value == state) return obj;
+                }
+                return false;
+            })();
+
             // Bar options
             var options = $.extend({
-                'title': 'Crime by type for ' + state,
+                'title': 'Crime by type for ' + state_obj.state_abbrv.value + ' (Population: ' + state_obj.population.value + ')',
                 'hAxis': { 'title': 'Crime Type' },
                 'vAxis': { 'title': 'Crime Count' },
                 'width': 900,
@@ -126,13 +135,6 @@ google.setOnLoadCallback(function() {
             // Create data table
             var cols = [['string', 'Type'], ['number', 'Count']];
 
-            var state_obj = (function() {
-                for(i in data.results.bindings) {
-                    obj = data.results.bindings[i];
-                    if(obj.state_abbrv.value == state) return obj;
-                }
-                return false;
-            })();
             var rows = $.map(fields, function(e) {
                 return [[e.label, parseInt(state_obj[e.col].value)]];
             });
