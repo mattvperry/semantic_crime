@@ -23,16 +23,23 @@ google.load('visualization', '1', {'packages': ['geomap', 'corechart']});
 // Set Google callback
 google.setOnLoadCallback(function() {
     // Extend Jquery with Google viz
+    $.visualizations = {};
     $.fn.extend({
         google_viz: function(type, cols, rows, options) {
+            if(arguments.length == 0) return $.visualizations[this];
             // Create google data table
             var data = new google.visualization.DataTable();
             $.each(cols, function(i, e) { data.addColumn(e[0], e[1]) });
             data.addRows(rows);
             // Display viz
-            new google.visualization[type](this[0]).draw(data, options);
+            $.visualizations[this] = new google.visualization[type](this[0])
+            $.visualizations[this].draw(data, options);
         },
-        crime_select: function(data, selected, sel_callback, change_callback, opts) {
+        google_viz_event: function(type, callback) {
+            var viz = $(this).google_viz();
+            google.visualization.events.addListener(viz, type, callback);
+        },
+        crime_select: function(data, selected, sel_callback, change_callback) {
             // Populate line chart dropdown
             select = $(this);
             $.each(crime_fields, function(i, e) {
@@ -44,7 +51,7 @@ google.setOnLoadCallback(function() {
 
             // Wire change event
             select.change(function() {
-                change_callback(data, $(this).find(':selected'), opts);
+                change_callback(data, $(this).find(':selected'));
             });
 
             select.trigger('change');
@@ -134,20 +141,24 @@ google.setOnLoadCallback(function() {
     (function setup_demo(data) {
         $('#chart_select').crime_select(data, crime_fields,
             function(e, sel) { return $.inArray(e, sel) != -1; },
-            function(data, selected, opts) {
+            function(data, selected) {
                 $('#chart_canvas').draw_chart(data, selected.map(function(i, e) {
                     return { label: $(e).text(), col: $(e).val() }
-                }), opts);
+                }));
             }
         );
 
         $('#map_select').crime_select(data, crime_fields[0],
             function(e, sel) { return e == sel; },
-            function(data, selected, opts) {
+            function(data, selected) {
                 sel = $(selected[0]);
-                $('#map_canvas').draw_map(data, { label: sel.text(), col: sel.val() }, opts);
+                $('#map_canvas').draw_map(data, { label: sel.text(), col: sel.val() });
             }
         );
+
+        $('#map_canvas').google_viz_event('select', function(e) {
+            alert(e.region);
+        });
 
         $('#bar_canvas').draw_bar(data, 'NY', crime_fields);
     })(data);
