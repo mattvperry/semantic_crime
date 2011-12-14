@@ -127,7 +127,11 @@ google.setOnLoadCallback(function() {
             var options = $.extend({
                 'title': 'Crime by type for ' + state_obj.state_abbrv.value + ' (Population: ' + state_obj.population.value + ')',
                 'hAxis': { 'title': 'Crime Type' },
-                'vAxis': { 'title': 'Crime Count' },
+                'vAxis': {
+                    'title': 'Crime Count',
+                    'minValue': 0,
+                    'maxValue': 1000000
+                },
                 'width': 900,
                 'height': 550
             }, opts);
