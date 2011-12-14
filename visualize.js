@@ -157,7 +157,7 @@ google.setOnLoadCallback(function() {
         );
 
         $('#map_canvas').google_viz_event('select', function(e) {
-            alert(e.region);
+            asd = e;
         });
 
         $('#bar_canvas').draw_bar(data, 'NY', crime_fields);
