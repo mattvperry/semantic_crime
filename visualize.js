@@ -17,7 +17,15 @@ google.setOnLoadCallback(function() {
         draw_map(data, 'violent_crime');
     });
 
-    function draw_map(data, column) {
+    function draw_map(data, column, opts) {
+        // Map options
+        var options = $.extend({
+            'region': 'US',
+            'dataMode': 'regions',
+            'width': 900,
+            'height': 550
+        }, opts);
+
         // Create google data table
         var google_data = new google.visualization.DataTable();
         google_data.addColumn('string', 'State');
@@ -25,6 +33,13 @@ google.setOnLoadCallback(function() {
 
         // Populate google data table
         $.each(data.results.bindings, function(i, e) {
+            var state = 'US-' + e.state_abbrv.value;
+            var value = parseInt(e[column].value);
+            google_data.addRow([state, value]);
         });
+
+        // Display map
+        var viz = $('#map_canvas');
+        new google.visualization.GeoMap(viz[0]).draw(google_data, options);
     };
 });
