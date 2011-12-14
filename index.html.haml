@@ -4,6 +4,11 @@
     %title Crime Rates versus Incomes per US State
     %script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
     %script(src="http://www.google.com/jsapi")
+    %script(src="data.js")
     %script(src="visualize.js")
+  -#
+    :javascript
+      #{File.read('visualize.js')}
   %body
+    %div#chart_canvas
     %div#map_canvas
